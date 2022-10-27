@@ -67,64 +67,6 @@ int FirstTask(int x = 3) {
     return y;
 }
 
-void SlavikFunc() {
-	long X = 3;// осередок пам'яті для аргументу
-	long i = 5;
-	long six = 6;
-	long REZ[5]; // 7 осередків пам'яті для ре-зультатів
-	//(6^𝑥+12)/(5∙𝑥−8)
-
-//
-/*	3		32			, 57142857
-	7		10368		, 44444
-	11		7719086		, 553
-	15		7017686337
-	19		7			, 00413E+12*/
-
-	_asm
-	{
-
-		lea ebx, REZ
-		mov esi, i
-		start :
-		; (5∙𝑥−8)
-			mov eax, 5
-			mul X
-			sub eax, 8
-			; end of(5∙𝑥−8)
-			; sending resukt to edi
-			mov edi, eax
-
-			; (6 ^ 𝑥 + 12)
-
-			mov eax, 6
-			; degree
-			mov ecx, X
-			dec ecx
-
-			power_numerator :
-		imul six
-			loop power_numerator
-			add eax, 12
-
-			div edi
-			mov dword ptr[EBX], EAX
-			add EBX, 4
-			add X, 4
-			mov ecx, esi
-			dec esi
-			loop start
-
-
-
-	} // закінчення ассемблерной вставки
-
-	printf("Task #1\n");
-	for (auto v : REZ)
-		printf("%d ", v);
-
-}
-
 int main()
 {
     std::cout << "First task result: " << std::endl;
